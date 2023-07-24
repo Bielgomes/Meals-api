@@ -1,0 +1,28 @@
+{
+  "name": "desafio-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "knex": "node --no-warnings --loader tsx ./node_modules/knex/bin/cli.js",
+    "lint": "eslint src --ext .ts --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cookie": "^8.3.0",
+    "dotenv": "^16.3.1",
+    "fastify": "^4.20.0",
+    "knex": "^2.5.1",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^2.1.0",
+    "@types/node": "^20.4.2",
+    "eslint": "^8.45.0",
+    "sqlite3": "^5.1.6",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  }
+}
