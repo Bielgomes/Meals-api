@@ -46,14 +46,15 @@ export async function mealsRoutes(app: FastifyInstance) {
         .select('id')
         .first()
 
-      const meals = await knex('meals')
+      const meal = await knex('meals')
         .where({
           user_id: user.id,
           id,
         })
         .select()
+        .first()
 
-      return { meals }
+      return { meal }
     },
   )
 
