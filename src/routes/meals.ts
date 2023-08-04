@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 import { randomUUID } from 'crypto'
-import { findLongestSequence } from '../scripts/find-longest-sequence'
+import { findLongestSequence } from '../utils/find-longest-sequence'
 
 export async function mealsRoutes(app: FastifyInstance) {
   app.get(
@@ -21,7 +21,9 @@ export async function mealsRoutes(app: FastifyInstance) {
         .select('id')
         .first()
 
-      const meals = await knex('meals').where('user_id', user.id).select()
+      const meals = await knex('meals')
+        .where('user_id', user?.id)
+        .select()
 
       return { meals }
     },
@@ -48,7 +50,7 @@ export async function mealsRoutes(app: FastifyInstance) {
 
       const meal = await knex('meals')
         .where({
-          user_id: user.id,
+          user_id: user?.id,
           id,
         })
         .select()
@@ -72,22 +74,22 @@ export async function mealsRoutes(app: FastifyInstance) {
         .first()
 
       const totalMeals = await knex('meals')
-        .where('user_id', user.id)
+        .where('user_id', user?.id)
         .count('id as total')
         .first()
 
       const OnDietMeals = await knex('meals')
-        .where({ user_id: user.id, type: 'on_diet' })
+        .where({ user_id: user?.id, type: 'on_diet' })
         .count('id as total')
         .first()
 
       const OffDietMeals = await knex('meals')
-        .where({ user_id: user.id, type: 'off_diet' })
+        .where({ user_id: user?.id, type: 'off_diet' })
         .count('id as total')
         .first()
 
       const onDietMealsSequence = await knex('meals')
-        .where('user_id', user.id)
+        .where('user_id', user?.id)
         .orderBy('time')
 
       const longestOnDietMealsSequence = findLongestSequence(
@@ -128,7 +130,7 @@ export async function mealsRoutes(app: FastifyInstance) {
 
       await knex('meals').insert({
         id: randomUUID(),
-        user_id: user.id,
+        user_id: user?.id,
         ...params,
       })
 
@@ -167,7 +169,7 @@ export async function mealsRoutes(app: FastifyInstance) {
       await knex('meals')
         .update({ ...body })
         .where({
-          user_id: user.id,
+          user_id: user?.id,
           id,
         })
 
@@ -196,7 +198,7 @@ export async function mealsRoutes(app: FastifyInstance) {
 
       await knex('meals')
         .where({
-          user_id: user.id,
+          user_id: user?.id,
           id,
         })
         .delete()
